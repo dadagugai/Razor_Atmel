@@ -91,7 +91,8 @@ void UserApp1Initialize(void)
   /* If good initialization, set state to Idle */
   if( 1 )
   {
-    UserApp1_StateMachine = UserApp1SM_Idle;
+   // UserApp1_StateMachine = UserApp1SM_Idle;
+    UserApp1_StateMachine=all_led;
   }
   else
   {
@@ -156,7 +157,24 @@ static void UserApp1SM_FailedInit(void)
     
 } /* end UserApp1SM_FailedInit() */
 
-
+void  all_led(void){
+    u8  u8counter=0;
+    if(G_u32SystemTime1ms%1000==0){
+      
+      for(u8counter=0;u8counter<8;u8counter++){
+          LedOn(u8counter++);
+      }
+      
+    }
+    if(G_u32SystemTime1ms%2000==0){
+      
+      for(u8counter=0;u8counter<8;u8counter++){
+          LedOff(u8counter++);
+      }
+      
+    }
+  
+}
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* End of File                                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
