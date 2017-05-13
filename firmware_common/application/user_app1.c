@@ -91,7 +91,7 @@ void UserApp1Initialize(void)
   /* If good initialization, set state to Idle */
   if( 1 )
   {
-    UserApp1_StateMachine = UserApp1SM_Idle;
+    UserApp1_StateMachine = LedCounter;
   }
   else
   {
@@ -131,6 +131,93 @@ void UserApp1RunActiveState(void)
 /**********************************************************************************************************************
 State Machine Function Definitions
 **********************************************************************************************************************/
+void LedCounter(void)
+{
+    static u8 u8Counter=0;
+    static u8 u8Decade;
+    static u8 u8Unit;
+      if(G_u32SystemTime1ms%1000==0)
+    {
+       
+        u8Unit=G_u32SystemTime1s%10;
+        u8Decade=G_u32SystemTime1s/10;
+        if(u8Unit & 0x01)
+    {
+      LedOn(RED);
+    }
+    else
+    {
+      LedOff(RED);
+    }
+
+    if(u8Unit & 0x02)
+    {
+      LedOn(ORANGE);
+    }
+    else
+    {
+      LedOff(ORANGE);
+    }
+
+    if(u8Unit & 0x04)
+    {
+      LedOn(YELLOW);
+    }
+    else
+    {
+      LedOff(YELLOW);
+    }
+
+    if(u8Unit & 0x08)
+    {
+      LedOn(GREEN);
+    }
+    else
+    {
+      LedOff(GREEN);
+    }
+    if(u8Decade & 0x01)
+    {   
+      LedOn(CYAN);
+    }
+    else
+    {
+      LedOff(CYAN);
+    }
+    if(u8Decade & 0x02)
+    {
+      LedOn(BLUE);
+    }
+    else
+    {
+      LedOff(BLUE);
+    }
+    if(u8Decade & 0x04)
+    {
+      LedOn(PURPLE);
+    }
+    else
+    {
+      LedOff(PURPLE);
+    }
+    if(u8Decade & 0x08)
+    {
+      LedOn(WHITE);
+    }
+    else
+    {
+      LedOff(WHITE);
+    }
+    if(G_u32SystemTime1s>=99)
+      G_u32SystemTime1s=0;
+  }
+ 
+ 
+ 
+ 
+}
+
+
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Wait for ??? */
