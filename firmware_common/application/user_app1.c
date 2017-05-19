@@ -91,7 +91,7 @@ void UserApp1Initialize(void)
   /* If good initialization, set state to Idle */
   if( 1 )
   {
-    UserApp1_StateMachine = UserApp1SM_Idle;
+    UserApp1_StateMachine = Password;
   }
   else
   {
@@ -131,7 +131,73 @@ void UserApp1RunActiveState(void)
 /**********************************************************************************************************************
 State Machine Function Definitions
 **********************************************************************************************************************/
-
+ static void Password(void)
+ {
+  static u8 u8_Password[]={0,1,2,3,0,1,2,3,0,1};/*store password*/
+  static u8 u8_InputPassword[10];/*Input password*/
+   static u8 u8_Counter=0;
+   u8 u8Number;/*counter*/
+   u8 u8Flag;/*Judge True or False*/
+         if(u8_Counter<=10)/*Store ten numbers into array*/
+     {
+        if( WasButtonPressed(BUTTON1) )
+        {
+           u8_InputPassword[u8_Counter]=1;
+            ButtonAcknowledge(BUTTON1);
+             u8_Counter++;
+            
+    
+        }
+        if(WasButtonPressed(BUTTON0))
+       {  
+           u8_InputPassword[u8_Counter]=0;
+           ButtonAcknowledge(BUTTON0);
+           u8_Counter++;
+          
+       }
+        if(WasButtonPressed(BUTTON2))
+        {
+          u8_InputPassword[u8_Counter]=2;
+          ButtonAcknowledge(BUTTON2);
+         u8_Counter++;
+          
+        }
+       if(WasButtonPressed(BUTTON3))
+       {
+         u8_InputPassword[u8_Counter]=3;
+       ButtonAcknowledge(BUTTON3);
+         u8_Counter++;
+       }
+     }
+       else
+       {
+         LedOn(RED);/*Show you have pressed ten Times*/
+       }
+         
+    for(u8Number=0;u8Number<=10;u8Number++)
+    { 
+      u8Flag=1;
+      if(u8_Password[u8Number]!=u8_InputPassword[u8Number])
+      { u8Flag=0;
+      break;
+      }
+    }
+    if(u8Flag==1)/*Judge u8_Passwore[10] equal to u8_InputPassword[10]*/
+    {
+        LedOff(WHITE);
+         if(G_u32SystemTime1ms%500==0)
+           LedOn(GREEN);
+         if(G_u32SystemTime1ms%1000==0)
+           LedOff(GREEN);
+         /*Let green led flickering*/
+      }
+    else
+    {
+      LedOn(WHITE);
+    }
+          
+  
+ }
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
